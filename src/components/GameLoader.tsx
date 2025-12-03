@@ -52,19 +52,34 @@ function GameLoader(props: GameLoaderProps) {
 
   return (
     <div className="game-loader">
-      <h1>Jeopardy Player</h1>
-      <p>Designed by Brian Yu</p>
+      <h1>PCD Jeopardy</h1>
+      <p>Questions by Annie Hindenlang</p>
       <hr />
+      <center>
+        <img
+          src="https://www.seattle.gov/images/2015_IMG/logoHome.png"
+          alt="Seattle Logo"
+        />
+      </center>
       <h2>Play a Game</h2>
       <input type="file" name="file" onChange={handleGameUpload} />
-      <hr />
-      <h2>Create a Game</h2>
-      <div className="create-your-own">
-        To create a Jeopardy game, download the below game configuration file,
-        edit it to include your desired clues, and re-upload it here.
-        <div>
-          <button onClick={downloadSampleGame}>Download Configuration</button>
-        </div>
+      <div
+        className="download-icon"
+        onClick={downloadSampleGame}
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          left: "20px",
+          cursor: "pointer",
+          fontSize: "24px",
+          opacity: 0.6,
+          transition: "opacity 0.2s",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.6")}
+        title="Download sample game configuration"
+      >
+        ⬇️
       </div>
     </div>
   );

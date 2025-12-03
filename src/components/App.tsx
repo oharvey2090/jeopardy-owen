@@ -224,8 +224,8 @@ function App() {
           }
           stats={false}
         />
-        <button onClick={downloadGame} className="download">
-          Download Game in Progress
+        <button onClick={downloadGame} className="download-button">
+          💾 Backup Game
         </button>
       </div>
     );
@@ -241,8 +241,8 @@ function App() {
           wagering={true}
           stats={false}
         />
-        <button onClick={downloadGame} className="download">
-          Download Game in Progress
+        <button onClick={downloadGame} className="download-button">
+          💾 Backup Game
         </button>
       </div>
     );
@@ -256,8 +256,8 @@ function App() {
           wagering={false}
           stats={true}
         />
-        <button onClick={downloadGame} className="download">
-          Download Game Result
+        <button onClick={downloadGame} className="download-button">
+          💾 Download Result
         </button>
       </div>
     );

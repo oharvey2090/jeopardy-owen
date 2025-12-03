@@ -1,6 +1,7 @@
 body {
-  background-color: black;
+  background-color: #003da5;
   color: white;
+  cursor: default;
 }
 
 table {
@@ -74,6 +75,7 @@ td.board-clue {
   font-size: 50px;
   height: 65px;
   color: #c99f57;
+  cursor: pointer;
 }
 
 .clue {
@@ -128,4 +130,25 @@ td.board-clue {
   font-family: "Consolas", "Fira Code", monospace;
   text-transform: none;
   text-align: left;
+}
+
+.download-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  z-index: 1000;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.download-button:hover {
+  opacity: 1;
+  transform: translateY(-2px);
 }
