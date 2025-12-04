@@ -11,6 +11,8 @@ interface JeopardyBoardProps {
   chooseClue: (categoryIndex: number, clueIndex: number) => void;
   currentCategory: number | null;
   currentClue: number | null;
+  downloadGame: () => void;
+  restartGame: () => void;
 }
 
 function JeopardyBoard(props: JeopardyBoardProps) {
@@ -22,6 +24,8 @@ function JeopardyBoard(props: JeopardyBoardProps) {
     chooseClue,
     currentCategory,
     currentClue,
+    downloadGame,
+    restartGame,
   } = props;
 
   const [solution, setSolution] = useState(false);
@@ -30,6 +34,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImage, setCurrentImage] = useState<string>("");
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     document.addEventListener("keydown", clueKeyPress);
@@ -42,6 +47,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
   useEffect(() => {
     const images = document.querySelectorAll(".clue-display img");
     const handleImageClick = (event: Event) => {
+      event.stopPropagation(); // Prevent triggering clue click
       const img = event.target as HTMLImageElement;
       setCurrentImage(img.src);
       setShowImageModal(true);
@@ -56,7 +62,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
         img.removeEventListener("click", handleImageClick);
       });
     };
-  }, []);
+  }, [currentCategory, currentClue, solution, dailyDoubleScreenPresented]);
 
   function renderCategory(index: number) {
     return (
@@ -175,6 +181,10 @@ function JeopardyBoard(props: JeopardyBoardProps) {
     setCurrentImage("");
   }
 
+  function toggleMenu() {
+    setShowMenu(!showMenu);
+  }
+
   function renderHelpModal() {
     if (!showHelpModal) return null;
 
@@ -280,6 +290,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
             src={currentImage}
             alt="Fullscreen view"
             className="fullscreen-image"
+            onClick={closeImageModal}
           />
         </div>
       </div>
@@ -300,13 +311,22 @@ function JeopardyBoard(props: JeopardyBoardProps) {
           board[currentCategory].clues[currentClue],
           board[currentCategory].clues[currentClue].value
         )}
-        <button
-          className="help-button"
-          onClick={openHelpModal}
-          title="Help & Keyboard Shortcuts"
-        >
-          ❓
+        <button className="menu-toggle" onClick={toggleMenu} title="Menu">
+          ☰
         </button>
+        {showMenu && (
+          <div className="menu-dropdown">
+            <button onClick={openHelpModal} className="menu-item">
+              ❓ Help
+            </button>
+            <button onClick={downloadGame} className="menu-item">
+              💾 Backup
+            </button>
+            <button onClick={restartGame} className="menu-item">
+              🔄 Restart
+            </button>
+          </div>
+        )}
         {renderHelpModal()}
         {renderImageModal()}
       </>
@@ -350,13 +370,22 @@ function JeopardyBoard(props: JeopardyBoardProps) {
           </tbody>
         </table>
       </div>
-      <button
-        className="help-button"
-        onClick={openHelpModal}
-        title="Help & Keyboard Shortcuts"
-      >
-        ❓
+      <button className="menu-toggle" onClick={toggleMenu} title="Menu">
+        ☰
       </button>
+      {showMenu && (
+        <div className="menu-dropdown">
+          <button onClick={openHelpModal} className="menu-item">
+            ❓ Help
+          </button>
+          <button onClick={downloadGame} className="menu-item">
+            💾 Backup
+          </button>
+          <button onClick={restartGame} className="menu-item">
+            🔄 Restart
+          </button>
+        </div>
+      )}
       {renderHelpModal()}
       {renderImageModal()}
     </>

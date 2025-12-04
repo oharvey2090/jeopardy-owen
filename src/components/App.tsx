@@ -28,6 +28,7 @@ function App() {
     number | null
   >(null);
   const [currentClueIndex, setCurrentClueIndex] = useState<number | null>(null);
+  const [showMenu, setShowMenu] = useState(false);
 
   // Load from cache on component mount
   useEffect(() => {
@@ -179,6 +180,10 @@ function App() {
     element.click();
   }
 
+  function toggleMenu() {
+    setShowMenu(!showMenu);
+  }
+
   if (game === null) {
     return (
       <div className="app">
@@ -283,6 +288,8 @@ function App() {
             categoriesShown={numCategoriesShown}
             currentCategory={currentCategoryIndex}
             currentClue={currentClueIndex}
+            downloadGame={downloadGame}
+            restartGame={restartGame}
           />
         </div>
         <Scoreboard
@@ -301,12 +308,6 @@ function App() {
           }
           stats={false}
         />
-        <button onClick={downloadGame} className="download-button">
-          💾 Backup Game
-        </button>
-        <button onClick={restartGame} className="restart-button">
-          🔄 Start Over
-        </button>
       </div>
     );
   } else if (round === "final") {
@@ -314,7 +315,12 @@ function App() {
     return (
       <div className="app">
         <div style={{ paddingBottom: "25vh" }}>
-          <FinalJeopardy final={final} onFinishGame={finishGame} />
+          <FinalJeopardy
+            final={final}
+            onFinishGame={finishGame}
+            downloadGame={downloadGame}
+            restartGame={restartGame}
+          />
         </div>
         <Scoreboard
           players={players}
@@ -323,53 +329,56 @@ function App() {
           wagering={true}
           stats={false}
         />
-        <button onClick={downloadGame} className="download-button">
-          💾 Backup Game
-        </button>
-        <button onClick={restartGame} className="restart-button">
-          🔄 Start Over
-        </button>
       </div>
     );
   } else if (round === "done") {
     return (
-      <div className="app">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingTop: "10vh",
-            paddingBottom: "30vh",
-          }}
-        >
-          <h1
+      <>
+        <div className="app">
+          <div
             style={{
-              color: "white",
-              fontFamily: '"Swiss921", sans-serif',
-              fontSize: "clamp(2rem, 6vw, 4rem)",
-              marginBottom: "5vh",
-              textAlign: "center",
-              textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingTop: "10vh",
+              paddingBottom: "30vh",
             }}
           >
-            🏆 Final Results 🏆
-          </h1>
+            <h1
+              style={{
+                color: "white",
+                fontFamily: '"Swiss921", sans-serif',
+                fontSize: "clamp(2rem, 6vw, 4rem)",
+                marginBottom: "5vh",
+                textAlign: "center",
+                textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+              }}
+            >
+              🏆 Final Results 🏆
+            </h1>
+          </div>
+          <Scoreboard
+            players={players}
+            currentValue={null}
+            updateScore={updateScore}
+            wagering={false}
+            stats={true}
+          />
         </div>
-        <Scoreboard
-          players={players}
-          currentValue={null}
-          updateScore={updateScore}
-          wagering={false}
-          stats={true}
-        />
-        <button onClick={downloadGame} className="download-button">
-          💾 Download Result
+        <button className="menu-toggle" onClick={toggleMenu} title="Menu">
+          ☰
         </button>
-        <button onClick={restartGame} className="restart-button">
-          🔄 Start Over
-        </button>
-      </div>
+        {showMenu && (
+          <div className="menu-dropdown">
+            <button onClick={downloadGame} className="menu-item">
+              💾 Download Result
+            </button>
+            <button onClick={restartGame} className="menu-item">
+              🔄 Start Over
+            </button>
+          </div>
+        )}
+      </>
     );
   } else {
     return <div>Error: Unknown game round.</div>;
