@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 
 import { GameData } from "../types";
 import sample_game from "../assets/sample_game.json";
+
 import { logEvent } from "../util/analytics";
 
 import "./GameLoader.css";
@@ -56,10 +57,7 @@ function GameLoader(props: GameLoaderProps) {
       <p>Questions by Annie Hindenlang</p>
       <hr />
       <center>
-        <img
-          src="https://www.seattle.gov/images/2015_IMG/logoHome.png"
-          alt="Seattle Logo"
-        />
+        <img src="/spr-logo.png" alt="Seattle Logo" />
       </center>
       <h2>Play a Game</h2>
       <input type="file" name="file" onChange={handleGameUpload} />

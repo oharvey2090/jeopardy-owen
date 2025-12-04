@@ -1,23 +1,191 @@
 .player-chooser {
   font-family: "Korinna-Bold";
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.player-chooser h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.player-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.player-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.view-mode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.player-name {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.player-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.remove-btn,
+.save-btn,
+.cancel-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.edit-btn {
+  background-color: rgba(108, 117, 125, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.remove-btn {
+  background-color: rgba(108, 117, 125, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.save-btn {
+  background-color: rgba(40, 167, 69, 0.8);
+  color: white;
+}
+
+.cancel-btn {
+  background-color: rgba(108, 117, 125, 0.8);
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: rgba(54, 162, 235, 0.6);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.remove-btn:hover {
+  background-color: rgba(220, 53, 69, 0.6);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.save-btn:hover,
+.cancel-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.edit-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-input {
+  flex: 1;
+  height: 32px;
+  padding: 0 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.player-chooser .input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .player-chooser input {
-  height: 20px;
-  margin: 10px;
-  width: 200px;
+  flex: 1;
+  height: 32px;
+  padding: 0 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.player-chooser input:focus,
+.edit-input:focus {
+  outline: none;
+  border-color: #61c27b;
+  box-shadow: 0 0 0 2px rgba(97, 194, 123, 0.2);
 }
 
 .player-chooser button {
-  width: 100px;
-  height: 25px;
+  height: 40px;
   border: none;
-  border-radius: 3px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .add-player-button {
+  width: 120px;
+  background-color: #007bff;
+  color: white;
+  flex-shrink: 0;
+}
+
+.add-player-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
 }
 
 .play-game-button {
-  background-color: #61c27b;
+  background: linear-gradient(135deg, #61c27b, #4a9960);
+  color: white;
+  width: 200px;
+  margin: 30px auto 30px auto;
+  font-size: 20px;
+  padding: 15px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(97, 194, 123, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.play-game-button:hover {
+  background: linear-gradient(135deg, #4a9960, #3d7d4f);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(97, 194, 123, 0.4);
+}
+
+.play-game-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
 }

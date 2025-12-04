@@ -3,6 +3,7 @@ export interface GameData {
   game: Game;
   players: Player[] | undefined;
   round: RoundName | undefined;
+  numCategoriesShown?: number;
 }
 
 // Represents a player in the Jeopardy game

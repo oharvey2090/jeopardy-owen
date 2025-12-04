@@ -29,8 +29,23 @@ function App() {
   >(null);
   const [currentClueIndex, setCurrentClueIndex] = useState<number | null>(null);
 
-  // Specify a game in the query string as /?game=GAME_ID loads a pre-loaded game
+  // Load from cache on component mount
   useEffect(() => {
+    const cachedGame = localStorage.getItem("jeopardy-game-state");
+    if (cachedGame) {
+      try {
+        const gameData: GameData = JSON.parse(cachedGame);
+        logEvent("Load From Cache");
+        updateGame(gameData);
+        setNumCategoriesShown(gameData.numCategoriesShown || 0);
+        return;
+      } catch (error) {
+        console.error("Failed to load cached game:", error);
+        localStorage.removeItem("jeopardy-game-state");
+      }
+    }
+
+    // Specify a game in the query string as /?game=GAME_ID loads a pre-loaded game
     const urlParams = new URLSearchParams(window.location.search);
     const gameId = urlParams.get("game");
     if (gameId === null) {
@@ -47,6 +62,19 @@ function App() {
     updateGame(preloadedGame);
   }, []);
 
+  // Auto-save to cache whenever game state changes
+  useEffect(() => {
+    if (game && isGameStarted) {
+      const gameData: GameData = {
+        game,
+        players,
+        round,
+        numCategoriesShown,
+      };
+      localStorage.setItem("jeopardy-game-state", JSON.stringify(gameData));
+    }
+  }, [game, players, round, isGameStarted, numCategoriesShown]);
+
   function updateGame(data: GameData) {
     setPlayers(data.players || []);
     setRound(data.round || ROUND_SINGLE);
@@ -54,9 +82,35 @@ function App() {
     setGame(data.game);
   }
 
+  function restartGame() {
+    logEvent("Restart Game");
+    localStorage.removeItem("jeopardy-game-state");
+    setGame(null);
+    setPlayers([]);
+    setRound(ROUND_SINGLE);
+    setIsGameStarted(false);
+    setNumCategoriesShown(0);
+    setCurrentCategoryIndex(null);
+    setCurrentClueIndex(null);
+  }
+
   function addPlayer(name: string) {
     logEvent("Add Player");
     setPlayers([...players, { name, score: 0, correct: 0, incorrect: 0 }]);
+  }
+
+  function removePlayer(name: string) {
+    logEvent("Remove Player");
+    setPlayers(players.filter((player) => player.name !== name));
+  }
+
+  function editPlayer(oldName: string, newName: string) {
+    logEvent("Edit Player");
+    setPlayers(
+      players.map((player) =>
+        player.name === oldName ? { ...player, name: newName } : player
+      )
+    );
   }
 
   function playGame() {
@@ -139,8 +193,13 @@ function App() {
         <PlayerChooser
           players={players}
           addPlayer={addPlayer}
+          removePlayer={removePlayer}
+          editPlayer={editPlayer}
           playGame={playGame}
         />
+        <button onClick={restartGame} className="restart-button">
+          🔄 Start Over
+        </button>
       </div>
     );
   } else if (round === "single" || round === "double") {
@@ -227,6 +286,9 @@ function App() {
         <button onClick={downloadGame} className="download-button">
           💾 Backup Game
         </button>
+        <button onClick={restartGame} className="restart-button">
+          🔄 Start Over
+        </button>
       </div>
     );
   } else if (round === "final") {
@@ -244,6 +306,9 @@ function App() {
         <button onClick={downloadGame} className="download-button">
           💾 Backup Game
         </button>
+        <button onClick={restartGame} className="restart-button">
+          🔄 Start Over
+        </button>
       </div>
     );
   } else if (round === "done") {
@@ -258,6 +323,9 @@ function App() {
         />
         <button onClick={downloadGame} className="download-button">
           💾 Download Result
+        </button>
+        <button onClick={restartGame} className="restart-button">
+          🔄 Start Over
         </button>
       </div>
     );

@@ -21,6 +21,7 @@
 
 .correct-answer,
 .incorrect-answer {
+  position: relative;
   min-width: 65px;
   height: 30px;
   padding: 2px;
@@ -42,4 +43,22 @@
 
 .stats {
   font-size: 18px;
+}
+
+.keyboard-hint {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
