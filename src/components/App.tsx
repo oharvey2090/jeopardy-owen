@@ -126,10 +126,6 @@ function App() {
 
   function chooseClue(categoryIndex: number, clueIndex: number) {
     logEvent("Show Clue");
-    let newGame: Game = Object.assign({}, game);
-    let newRound: GameRound = (newGame as any)[round];
-    newRound[categoryIndex].clues[clueIndex].chosen = true;
-    setGame(newGame);
     setCurrentCategoryIndex(categoryIndex);
     setCurrentClueIndex(clueIndex);
   }
@@ -141,6 +137,16 @@ function App() {
     if (correct) players[playerIndex].correct++;
     else players[playerIndex].incorrect++;
     setPlayers(newPlayers);
+  }
+
+  function closeClue(categoryIndex: number, clueIndex: number) {
+    logEvent("Close Clue");
+    let newGame: Game = Object.assign({}, game);
+    let newRound: GameRound = (newGame as any)[round];
+    newRound[categoryIndex].clues[clueIndex].chosen = true;
+    setGame(newGame);
+    setCurrentClueIndex(null);
+    setCurrentCategoryIndex(null);
   }
 
   function returnToBoard() {
@@ -283,6 +289,7 @@ function App() {
           <JeopardyBoard
             board={board}
             backToBoard={returnToBoard}
+            closeClue={closeClue}
             categoryShown={handleCategoryShown}
             chooseClue={chooseClue}
             categoriesShown={numCategoriesShown}

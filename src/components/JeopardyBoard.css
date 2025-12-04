@@ -156,6 +156,58 @@ td.board-clue:hover {
   line-height: 1.4;
 }
 
+/* Clue control buttons */
+.clue-controls {
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2vw;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+.clue-button {
+  padding: 2vh 4vw;
+  font-family: "Korinna", serif;
+  font-weight: bold;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  border: 2px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  min-width: 15vw;
+  min-height: 6vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.go-back-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.go-back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.close-btn {
+  background-color: #c99f57;
+  color: #001699;
+}
+
+.close-btn:hover {
+  background-color: #d4a968;
+  transform: translateY(-2px);
+}
+
 /* Daily Double styling */
 .daily-double {
   font-size: clamp(2rem, 8vw, 6rem);
@@ -535,6 +587,23 @@ kbd {
     padding: 2vh 1vw;
   }
 
+  .clue-controls {
+    gap: 3vw;
+    bottom: 2vh;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .clue-button {
+    padding: 1.8vh 3vw;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    min-width: 20vw;
+    min-height: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .menu-toggle {
     width: 50px;
     height: 50px;
@@ -577,6 +646,26 @@ kbd {
     min-height: 12vh;
   }
 
+  .clue-controls {
+    flex-direction: column;
+    gap: 1.5vh;
+    bottom: 1.5vh;
+    width: 90vw;
+    left: 5vw;
+    transform: none;
+  }
+
+  .clue-button {
+    padding: 2vh 4vw;
+    font-size: 1.1rem;
+    min-width: auto;
+    width: 100%;
+    min-height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .menu-toggle {
     width: 45px;
     height: 45px;
@@ -608,6 +697,23 @@ kbd {
 
   .clue-display img {
     max-height: 30vh;
+  }
+
+  .clue-controls {
+    flex-direction: row;
+    gap: 2vw;
+    bottom: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+  }
+
+  .clue-button {
+    padding: 1vh 3vw;
+    font-size: 0.9rem;
+    min-width: 15vw;
+    min-height: 5vh;
+    width: auto;
   }
 }
 

@@ -9,6 +9,7 @@ interface JeopardyBoardProps {
   categoryShown: () => void;
   categoriesShown: number;
   chooseClue: (categoryIndex: number, clueIndex: number) => void;
+  closeClue: (categoryIndex: number, clueIndex: number) => void;
   currentCategory: number | null;
   currentClue: number | null;
   downloadGame: () => void;
@@ -22,13 +23,13 @@ function JeopardyBoard(props: JeopardyBoardProps) {
     categoryShown,
     categoriesShown,
     chooseClue,
+    closeClue,
     currentCategory,
     currentClue,
     downloadGame,
     restartGame,
   } = props;
 
-  const [solution, setSolution] = useState(false);
   const [dailyDoubleScreenPresented, setDailyDoubleScreenPresented] =
     useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
@@ -62,7 +63,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
         img.removeEventListener("click", handleImageClick);
       });
     };
-  }, [currentCategory, currentClue, solution, dailyDoubleScreenPresented]);
+  }, [currentCategory, currentClue, dailyDoubleScreenPresented]);
 
   function renderCategory(index: number) {
     return (
@@ -84,13 +85,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
 
     return (
       <div
-        onClick={
-          showDailyDoubleScreen
-            ? switchDDToClue
-            : solution
-            ? returnToBoard
-            : toggleSolution
-        }
+        onClick={showDailyDoubleScreen ? switchDDToClue : undefined}
         className="clue"
       >
         <div className="clue-category-label">
@@ -108,15 +103,23 @@ function JeopardyBoard(props: JeopardyBoardProps) {
           ) : clue.html === true ? (
             <div
               dangerouslySetInnerHTML={{
-                __html: solution ? clue.solution : clue.clue,
+                __html: clue.clue,
               }}
             />
-          ) : solution ? (
-            clue.solution
           ) : (
             clue.clue
           )}
         </div>
+        {!showDailyDoubleScreen && (
+          <div className="clue-controls">
+            <button onClick={goBackToBoard} className="clue-button go-back-btn">
+              ← Go Back
+            </button>
+            <button onClick={closeQuestion} className="clue-button close-btn">
+              Close Question
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -134,6 +137,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
       (event.key === " " || event.key === "Enter")
     ) {
       categoryShown();
+      return; // Prevent further processing
     }
 
     if (currentCategory === null || currentClue === null) {
@@ -141,31 +145,37 @@ function JeopardyBoard(props: JeopardyBoardProps) {
     }
     const clue = board[currentCategory].clues[currentClue];
 
-    if (event.key === " " || event.key === "Enter") {
+    if (event.key === " ") {
       // If we just showed the Daily Double screen, switch to the clue
       if (clue.dailyDouble && !dailyDoubleScreenPresented) {
         switchDDToClue();
+      }
+    } else if (event.key === "Enter") {
+      // If Daily Double screen is showing, advance to clue, otherwise close question
+      if (clue.dailyDouble && !dailyDoubleScreenPresented) {
+        switchDDToClue();
       } else {
-        toggleSolution();
+        closeQuestion();
       }
     } else if (event.key === "Escape") {
-      returnToBoard();
+      goBackToBoard();
     }
   }
 
   function switchDDToClue() {
-    setSolution(false);
     setDailyDoubleScreenPresented(true);
   }
 
-  function returnToBoard() {
-    setSolution(false);
+  function goBackToBoard() {
     setDailyDoubleScreenPresented(false);
     backToBoard();
   }
 
-  function toggleSolution() {
-    setSolution(!solution);
+  function closeQuestion() {
+    if (currentCategory !== null && currentClue !== null) {
+      closeClue(currentCategory, currentClue);
+    }
+    setDailyDoubleScreenPresented(false);
   }
 
   function openHelpModal() {
@@ -204,10 +214,13 @@ function JeopardyBoard(props: JeopardyBoardProps) {
                 <li>Click on a category to reveal it</li>
                 <li>Click on dollar amounts to select questions</li>
                 <li>
-                  Press <kbd>Space</kbd> to toggle between question and answer
+                  Press <kbd>Space</kbd> to advance through Daily Double screens
                 </li>
                 <li>
-                  Press <kbd>Esc</kbd> to return to the board
+                  Press <kbd>Esc</kbd> to go back (keeps question active)
+                </li>
+                <li>
+                  Press <kbd>Enter</kbd> to close question (removes from board)
                 </li>
               </ul>
             </div>
@@ -250,6 +263,23 @@ function JeopardyBoard(props: JeopardyBoardProps) {
                 <li>Keyboard shortcuts work with wagered amounts</li>
                 <li>
                   Press <kbd>Space</kbd> to advance through Daily Double screens
+                </li>
+              </ul>
+            </div>
+
+            <div className="help-section">
+              <h3>🔄 Question Management</h3>
+              <ul>
+                <li>
+                  <strong>Go Back:</strong> Click "← Go Back" or press{" "}
+                  <kbd>Esc</kbd> to return to board (keeps question active)
+                </li>
+                <li>
+                  <strong>Close Question:</strong> Click "Close Question" or
+                  press <kbd>Enter</kbd> to remove from board
+                </li>
+                <li>
+                  Questions must be deliberately closed - they won't auto-close
                 </li>
               </ul>
             </div>
