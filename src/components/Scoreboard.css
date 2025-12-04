@@ -1,64 +1,288 @@
+/* Scoreboard container - positioned at bottom of viewport */
 .scoreboard {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  align-items: flex-start;
   align-content: flex-start;
+  background-color: rgba(0, 61, 165, 0.95);
+  backdrop-filter: blur(5px);
+  border-top: 3px solid #001699;
+  padding: 1vh 1vw;
+  box-sizing: border-box;
+  max-height: 25vh;
+  min-height: 20vh;
+  overflow-y: auto;
+  z-index: 100;
+  gap: 1vw;
 }
 
+/* Individual player podium */
 .podium {
   background-color: #001699;
   color: white;
   text-align: center;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   font-weight: bold;
-  font-size: 28px;
-  padding: 10px;
-  min-width: 200px;
-  border-radius: 5px;
+  font-size: clamp(0.8rem, 2.5vw, 1.4rem);
+  padding: 1vh 1.5vw;
+  min-width: clamp(150px, 20vw, 250px);
+  max-width: 25vw;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  flex: 1 1 auto;
+  margin-bottom: 1vh;
 }
 
+/* Player score display */
+.podium-score {
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  font-weight: bold;
+  margin-bottom: 0.5vh;
+  color: #c99f57;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Player name display */
+.podium-name {
+  font-size: clamp(0.7rem, 2vw, 1.2rem);
+  margin-bottom: 1vh;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Wager input box */
+.wager-box {
+  width: 80%;
+  max-width: 100px;
+  height: 4vh;
+  min-height: 30px;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #c99f57;
+  border-radius: 4px;
+  background-color: white;
+  color: #001699;
+  margin: 1vh 0;
+  box-sizing: border-box;
+}
+
+.wager-box:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Answer buttons container */
+.answer-buttons {
+  display: flex;
+  gap: 1vw;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vh;
+  flex-wrap: wrap;
+}
+
+/* Correct and incorrect answer buttons */
 .correct-answer,
 .incorrect-answer {
   position: relative;
-  min-width: 65px;
-  height: 30px;
-  padding: 2px;
-  margin: 10px;
-  font-family: Arial;
+  min-width: clamp(50px, 8vw, 70px);
+  height: clamp(35px, 5vh, 45px);
+  padding: 0.5vh 1vw;
+  font-family: Arial, sans-serif;
   font-weight: bold;
-  font-size: 18px;
-  border: 0px;
-  border-radius: 5px;
+  font-size: clamp(0.7rem, 2vw, 1rem);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  max-width: clamp(60px, 12vw, 90px);
 }
 
 .correct-answer {
   background-color: #21942a;
+  color: white;
+}
+
+.correct-answer:hover {
+  background-color: #1e7f24;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .incorrect-answer {
   background-color: #b53f18;
+  color: white;
 }
 
-.stats {
-  font-size: 18px;
+.incorrect-answer:hover {
+  background-color: #9f3515;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.correct-answer:active,
+.incorrect-answer:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Keyboard hint badges */
 .keyboard-hint {
   position: absolute;
-  bottom: -10px;
-  right: -10px;
+  bottom: -8px;
+  right: -8px;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  font-size: 10px;
+  width: clamp(14px, 2.5vw, 18px);
+  height: clamp(14px, 2.5vw, 18px);
+  font-size: clamp(0.6rem, 1.2vw, 0.7rem);
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+}
+
+/* Statistics display */
+.stats {
+  font-size: clamp(0.7rem, 1.8vw, 1rem);
+  margin-top: 1vh;
+  padding-top: 1vh;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats hr {
+  border: none;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 1vh 0;
+}
+
+.stats div {
+  margin: 0.5vh 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scoreboard {
+    max-height: 30vh;
+    min-height: 25vh;
+    padding: 1vh 2vw;
+    gap: 2vw;
+  }
+
+  .podium {
+    min-width: clamp(120px, 25vw, 200px);
+    max-width: 40vw;
+    padding: 1.5vh 2vw;
+  }
+
+  .answer-buttons {
+    gap: 2vw;
+  }
+
+  .correct-answer,
+  .incorrect-answer {
+    min-width: clamp(45px, 10vw, 65px);
+    max-width: clamp(70px, 15vw, 85px);
+  }
+
+  .keyboard-hint {
+    bottom: -6px;
+    right: -6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scoreboard {
+    flex-direction: column;
+    max-height: 35vh;
+    min-height: 30vh;
+    align-items: center;
+  }
+
+  .podium {
+    min-width: 80vw;
+    max-width: 90vw;
+    margin-bottom: 1vh;
+  }
+
+  .answer-buttons {
+    gap: 3vw;
+  }
+
+  .correct-answer,
+  .incorrect-answer {
+    min-width: 35vw;
+    max-width: 40vw;
+    height: 6vh;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .scoreboard {
+    max-height: 40vh;
+    min-height: 35vh;
+  }
+
+  .podium {
+    padding: 0.5vh 1vw;
+  }
+
+  .podium-score {
+    margin-bottom: 0.2vh;
+  }
+
+  .podium-name {
+    margin-bottom: 0.5vh;
+  }
+
+  .answer-buttons {
+    margin-top: 0.5vh;
+  }
+
+  .correct-answer,
+  .incorrect-answer {
+    height: 4vh;
+  }
+}
+
+/* Large screen optimization */
+@media (min-width: 1600px) {
+  .scoreboard {
+    padding: 2vh 3vw;
+  }
+
+  .podium {
+    max-width: 300px;
+    padding: 2vh 2vw;
+  }
+}
+
+/* High DPI screen adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .keyboard-hint {
+    border-width: 0.5px;
+  }
+
+  .correct-answer,
+  .incorrect-answer {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
 }

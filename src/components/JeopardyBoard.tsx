@@ -75,6 +75,7 @@ function JeopardyBoard(props: JeopardyBoardProps) {
   function renderClue(categoryName: string, clue: Clue, value: number) {
     const showDailyDoubleScreen =
       clue.dailyDouble && !dailyDoubleScreenPresented;
+
     return (
       <div
         onClick={

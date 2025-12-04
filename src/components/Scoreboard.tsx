@@ -124,7 +124,7 @@ function Scoreboard(props: ScoreboardProps) {
           </div>
         )}
         {currentValue !== null && clueValue !== null && (
-          <div>
+          <div className="answer-buttons">
             <button
               id={`incorrect-answer-${i}`}
               data-playerIndex={i}

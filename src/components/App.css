@@ -1,22 +1,190 @@
-.proceed-to {
-  background-color: #001699;
-  color: white;
-  width: 500px;
-  height: 50px;
-  font: Arial;
-  font-size: 28px;
-  border-radius: 5px;
-  border: none;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: block;
+/* Main app container */
+.app {
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #003da5;
 }
 
+/* Proceed to next round buttons */
+.proceed-to {
+  background-color: #001699;
+  background-image: linear-gradient(145deg, #001699, #0066cc);
+  color: white;
+  width: clamp(300px, 60vw, 600px);
+  height: clamp(50px, 8vh, 80px);
+  font-family: "Swiss921", Arial, sans-serif;
+  font-size: clamp(1.2rem, 3.5vw, 2rem);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 12px;
+  border: 3px solid #c99f57;
+  margin: 2vh auto;
+  display: block;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.proceed-to:hover {
+  background-image: linear-gradient(145deg, #0066cc, #0080ff);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.proceed-to:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.proceed-to::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.proceed-to:hover::before {
+  left: 100%;
+}
+
+/* Download/backup button styling */
 .download {
   background-color: #404040;
+  background-image: linear-gradient(145deg, #404040, #606060);
+  color: white;
   border: none;
-  margin-top: 100px;
-  border-radius: 3px;
+  border-radius: 8px;
+  padding: clamp(8px, 1.5vh, 16px) clamp(12px, 2vw, 24px);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-top: clamp(50px, 10vh, 100px);
+}
+
+.download:hover {
+  background-image: linear-gradient(145deg, #606060, #808080);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.download:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive container adjustments */
+@media (max-width: 768px) {
+  .proceed-to {
+    width: clamp(250px, 80vw, 500px);
+    height: clamp(60px, 10vh, 90px);
+    margin: 3vh auto;
+    border-width: 2px;
+  }
+
+  .download {
+    margin-top: clamp(30px, 8vh, 80px);
+  }
+}
+
+@media (max-width: 480px) {
+  .proceed-to {
+    width: clamp(200px, 90vw, 400px);
+    height: clamp(70px, 12vh, 100px);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    margin: 4vh auto;
+  }
+
+  .download {
+    margin-top: clamp(20px, 6vh, 60px);
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .proceed-to {
+    height: clamp(40px, 6vh, 60px);
+    margin: 1vh auto;
+  }
+
+  .download {
+    margin-top: clamp(10px, 4vh, 40px);
+  }
+}
+
+/* Large screen optimization */
+@media (min-width: 1600px) {
+  .proceed-to {
+    max-width: 700px;
+    height: clamp(70px, 8vh, 100px);
+  }
+
+  .download {
+    margin-top: clamp(80px, 12vh, 120px);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .proceed-to {
+    border-width: 4px;
+    border-color: #ffffff;
+    background-image: none;
+    background-color: #001699;
+  }
+
+  .download {
+    background-image: none;
+    background-color: #404040;
+    border: 2px solid #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .proceed-to,
+  .download {
+    transition: none;
+  }
+
+  .proceed-to::before {
+    display: none;
+  }
+
+  .proceed-to:hover,
+  .download:hover {
+    transform: none;
+  }
+}
+
+/* Focus states for accessibility */
+.proceed-to:focus,
+.download:focus {
+  outline: 3px solid #c99f57;
+  outline-offset: 3px;
+}
+
+.proceed-to:focus:not(:focus-visible),
+.download:focus:not(:focus-visible) {
+  outline: none;
 }

@@ -242,7 +242,15 @@ function App() {
         {currentCategoryIndex === null &&
           currentClueIndex === null &&
           allowProceedToDouble && (
-            <div>
+            <div
+              style={{
+                position: "absolute",
+                top: "2vh",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 200,
+              }}
+            >
               <button onClick={proceedToDouble} className="proceed-to">
                 Proceed to Double Jeopardy
               </button>
@@ -251,22 +259,32 @@ function App() {
         {currentCategoryIndex === null &&
           currentClueIndex === null &&
           allowProceedToFinal && (
-            <div>
+            <div
+              style={{
+                position: "absolute",
+                top: "2vh",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 200,
+              }}
+            >
               <button onClick={proceedToFinal} className="proceed-to">
                 Proceed to Final Jeopardy
               </button>
             </div>
           )}
 
-        <JeopardyBoard
-          board={board}
-          backToBoard={returnToBoard}
-          categoryShown={handleCategoryShown}
-          chooseClue={chooseClue}
-          categoriesShown={numCategoriesShown}
-          currentCategory={currentCategoryIndex}
-          currentClue={currentClueIndex}
-        />
+        <div style={{ paddingBottom: "25vh" }}>
+          <JeopardyBoard
+            board={board}
+            backToBoard={returnToBoard}
+            categoryShown={handleCategoryShown}
+            chooseClue={chooseClue}
+            categoriesShown={numCategoriesShown}
+            currentCategory={currentCategoryIndex}
+            currentClue={currentClueIndex}
+          />
+        </div>
         <Scoreboard
           players={players}
           currentValue={
@@ -294,8 +312,10 @@ function App() {
   } else if (round === "final") {
     const final = game.final;
     return (
-      <div>
-        <FinalJeopardy final={final} onFinishGame={finishGame} />
+      <div className="app">
+        <div style={{ paddingBottom: "25vh" }}>
+          <FinalJeopardy final={final} onFinishGame={finishGame} />
+        </div>
         <Scoreboard
           players={players}
           currentValue={0}
@@ -313,7 +333,29 @@ function App() {
     );
   } else if (round === "done") {
     return (
-      <div>
+      <div className="app">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingTop: "10vh",
+            paddingBottom: "30vh",
+          }}
+        >
+          <h1
+            style={{
+              color: "white",
+              fontFamily: '"Swiss921", sans-serif',
+              fontSize: "clamp(2rem, 6vw, 4rem)",
+              marginBottom: "5vh",
+              textAlign: "center",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+            }}
+          >
+            🏆 Final Results 🏆
+          </h1>
+        </div>
         <Scoreboard
           players={players}
           currentValue={null}
